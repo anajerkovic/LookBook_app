@@ -1,1 +1,1 @@
-# LookBook_app
+# LookBook

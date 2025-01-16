@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "486389705407",
+    "project_id": "lookbook-f7102",
+    "storage_bucket": "lookbook-f7102.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486389705407:android:f2300b0fb48f1b96b9b40a",
+        "android_client_info": {
+          "package_name": "com.example.lookbook_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIB5rntz0ddTzdLo4z6x1KlUlfUk9JnbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
