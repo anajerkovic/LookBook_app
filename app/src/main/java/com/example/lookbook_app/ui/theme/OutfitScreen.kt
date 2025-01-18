@@ -60,9 +60,12 @@ import android.Manifest
 import android.content.Intent
 import android.provider.MediaStore
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.draw.blur
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.lookbook_app.data.OutfitViewModel
 
 
@@ -86,6 +89,7 @@ fun OutfitScreen(navController: NavController,modifier: Modifier, viewModel: Out
         }
     }}*/
 
+    /*
     val context = LocalContext.current
 
     // Request permissions at runtime
@@ -105,16 +109,16 @@ fun OutfitScreen(navController: NavController,modifier: Modifier, viewModel: Out
         context,
         Manifest.permission.CAMERA
     ) == PackageManager.PERMISSION_GRANTED
-
+*/
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp) ,
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         ScreenTitle(title = "LookBook")
-        SearchBar(iconResource = R.drawable.ic_search, labelText = "")
         Spacer(Modifier.height(15.dp))
         OutfitTags()
         /*
@@ -133,7 +137,7 @@ fun OutfitScreen(navController: NavController,modifier: Modifier, viewModel: Out
             Text(text = "Add a new outfit")
         }
 
-
+/*
         Button(
             onClick = {
                 if (isPermissionGranted) {
@@ -145,11 +149,11 @@ fun OutfitScreen(navController: NavController,modifier: Modifier, viewModel: Out
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Open Camera")
-        }
+        }*/
     }
 }
 
-private fun openCamera(context: android.content.Context) {
+fun openCamera(context: android.content.Context) {
     val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
     // Check if there's a camera app available to handle the intent
@@ -225,8 +229,7 @@ fun Chip(modifier: Modifier = Modifier, text:String, backgroundColor: Color = Wh
 
 @Composable
 fun OutfitCard(
-    modifier: Modifier = Modifier,
-    @DrawableRes iconResource: Int,
+    imageResource: String,
     title : String,
     onClick: () -> Unit
 ) {
@@ -242,18 +245,27 @@ fun OutfitCard(
                 .clickable {
                     onClick()
                 }
+                .fillMaxWidth()
         ) {
             Box(modifier = Modifier){
-                Image(contentDescription = "",
+                Image(
+                    painter = rememberAsyncImagePainter(model = imageResource,
+                        error = painterResource(R.drawable.placeholder),
+                        placeholder = painterResource(R.drawable.placeholder)),
+                    contentDescription = title,
                     contentScale = ContentScale.Crop,
-                    painter = painterResource(id = iconResource)
+                    modifier = Modifier
+                        .fillMaxSize()
+
                 )
                 Column(modifier = Modifier
                     .padding(15.dp)
                     .align(Alignment.BottomStart)){
-                    Text("Test Outfit", color = White)
-                    Row { Chip(text = "Spring")
-                        Spacer(Modifier.width(2.dp))}
+                    Text(text = title,
+                        letterSpacing = 0.32.sp,
+                        color = White)
+                    /*Row { Chip(text = tag)
+                        Spacer(Modifier.width(2.dp))}*/
                 }
             }
         }
@@ -321,17 +333,19 @@ fun OutfitList(modifier: Modifier,
                navigation: NavController,
                viewModel: OutfitViewModel
     ){
+
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
+                .height(450.dp)
         ) {
             items(viewModel.outfitsData.size) {
                 OutfitCard(
-                    iconResource = R.drawable.placeholder,
-                    title = "Test Outfit"){
+                    imageResource = viewModel.outfitsData[it].imageUrl,
+                    title = viewModel.outfitsData[it].title){
                     navigation.navigate(
-                        Routes.getOutfitDetailsPath(1)
+                        Routes.getOutfitDetailsPath(it)
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))

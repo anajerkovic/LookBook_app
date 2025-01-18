@@ -43,11 +43,11 @@ fun NavigationController(viewModel: OutfitViewModel) {
             )
         ) { backStackEntry ->
             val outfitId = backStackEntry.arguments?.getInt("outfitId") ?: 0
-            OutfitDetailsScreen(outfitId = outfitId, navController = navController)
+            OutfitDetailsScreen(outfitId = outfitId, navController = navController,viewModel = viewModel )
         }
 
         composable(Routes.SCREEN_ADD_OUTFIT) {
-            AddOutfitScreen(navController = navController)
+            AddOutfitScreen(navController = navController, viewModel = viewModel)
         }
     }
 }
