@@ -110,6 +110,7 @@ fun OutfitScreen(navController: NavController,modifier: Modifier, viewModel: Out
         Manifest.permission.CAMERA
     ) == PackageManager.PERMISSION_GRANTED
 */
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -120,7 +121,7 @@ fun OutfitScreen(navController: NavController,modifier: Modifier, viewModel: Out
     ) {
         ScreenTitle(title = "LookBook")
         Spacer(Modifier.height(15.dp))
-        OutfitTags()
+        OutfitTags(viewModel = viewModel)
         /*
         Card(modifier = Modifier
             .fillMaxWidth()
@@ -294,10 +295,13 @@ fun TabButton(
     }
 }
 
+
+/*
 @Composable
 fun OutfitTags() {
     var currentActiveButton by remember { mutableStateOf(0) }
-    LazyRow(
+    var selectedTag by remember { mutableStateOf("All")}
+        LazyRow(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(horizontal = 10.dp, vertical = 16.dp)
@@ -324,10 +328,35 @@ fun OutfitTags() {
     }
 
     }
+}*/
+
+@Composable
+fun OutfitTags(viewModel: OutfitViewModel) {
+    var currentActiveButton by remember { mutableStateOf(0) }
+    val tags = listOf("All", "Spring", "Summer", "Autumn", "Winter")
+
+    LazyRow(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 16.dp)
+            .background(Color.Transparent)
+            .fillMaxWidth()
+            .height(34.dp)
+    ) {
+        items(tags.size) { index ->
+            TabButton(
+                text = tags[index],
+                isActive = currentActiveButton == index
+            ) {
+                currentActiveButton = index
+                viewModel.filterByTag(tags[index]) // Trigger filtering
+            }
+        }
+    }
 }
 
 
-
+/*
 @Composable
 fun OutfitList(modifier: Modifier,
                navigation: NavController,
@@ -351,4 +380,34 @@ fun OutfitList(modifier: Modifier,
                 Spacer(modifier = Modifier.width(8.dp))
             }
         }
+    }*/
+
+@Composable
+fun OutfitList(
+    modifier: Modifier,
+    navigation: NavController,
+    viewModel: OutfitViewModel
+) {
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .height(450.dp)
+    ) {
+        items(viewModel.outfitsData.size) { index ->
+            val outfit = viewModel.outfitsData[index] // Get the outfit object
+            val outfitId = outfit.id?.toIntOrNull() // Safely convert `id` to Int?
+
+            OutfitCard(
+                imageResource = outfit.imageUrl,
+                title = outfit.title
+            ) {
+                navigation.navigate(
+                    Routes.getOutfitDetailsPath(outfitId ?: -1) // Pass valid ID or fallback
+                )
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+        }
     }
+}
+

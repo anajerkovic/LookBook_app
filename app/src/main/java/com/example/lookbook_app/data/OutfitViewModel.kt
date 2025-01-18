@@ -73,4 +73,28 @@ class OutfitViewModel : ViewModel() {
                 onFailure(exception)
             }
     }
+
+
+    fun filterByTag(tag: String) {
+        outfitsData.clear()
+        val query = if (tag == "All") {
+            db.collection("outfits")
+        } else {
+            db.collection("outfits").whereEqualTo("tag", tag)
+        }
+
+        query.get()
+            .addOnSuccessListener { result ->
+                for (data in result.documents) {
+                    val outfit = data.toObject(Outfit::class.java)
+                    if (outfit != null) {
+                        outfit.id = data.id
+                        outfitsData.add(outfit)
+                    }
+                }
+            }
+    }
+
 }
+
+

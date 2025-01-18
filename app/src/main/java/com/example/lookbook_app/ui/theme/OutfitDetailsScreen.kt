@@ -58,7 +58,7 @@ fun OutfitDetailsScreen(outfitId: Int,
         Spacer(modifier = Modifier.height(16.dp))
 
         // Outfit Description
-        
+
         Text(
             text = outfit.description,
             fontSize = 16.sp,
