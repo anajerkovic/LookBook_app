@@ -37,13 +37,21 @@ fun NavigationController(viewModel: OutfitViewModel) {
         }
 
         composable(
-            route = Routes.SCREEN_OUTFIT_DETAILS,
+            Routes.SCREEN_OUTFIT_DETAILS,
             arguments = listOf(
-                navArgument("outfitId") { type = NavType.IntType }
+                navArgument("outfitId") {
+                    type = NavType.IntType
+                }
             )
         ) { backStackEntry ->
-            val outfitId = backStackEntry.arguments?.getInt("outfitId") ?: 0
-            OutfitDetailsScreen(outfitId = outfitId, navController = navController,viewModel = viewModel )
+            backStackEntry.arguments?.getInt("outfitId")?.let {
+                OutfitDetailsScreen(
+                    outfitId = it,
+                    navController = navController,
+                    viewModel = viewModel
+
+                )
+            }
         }
 
         composable(Routes.SCREEN_ADD_OUTFIT) {

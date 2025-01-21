@@ -69,7 +69,11 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.extensions)
 
+
+
     implementation(libs.coil.compose)
 
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-storage-ktx:20.2.0")
+
 }

@@ -50,30 +50,12 @@ class OutfitViewModel : ViewModel() {
             }
     }
 
-    // Update an existing outfit in Firestore
-    fun updateOutfit(outfit: Outfit, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
-        if (outfit.id == null) {
-            println("Error: Cannot update outfit without an ID.")
-            return
-        }
 
+    fun updateOutfit(outfit: Outfit) {
         db.collection("outfits")
             .document(outfit.id!!)
             .set(outfit)
-            .addOnSuccessListener {
-                // Update the local list
-                val index = outfitsData.indexOfFirst { it.id == outfit.id }
-                if (index >= 0) {
-                    outfitsData[index] = outfit
-                }
-                onSuccess()
-            }
-            .addOnFailureListener { exception ->
-                println("Error updating outfit: ${exception.message}")
-                onFailure(exception)
-            }
     }
-
 
     fun filterByTag(tag: String) {
         outfitsData.clear()

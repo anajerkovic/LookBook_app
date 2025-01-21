@@ -6,5 +6,5 @@ data class Outfit(
     var description: String = "",
     var tag: String = "",
     var imageUrl: String = "",
-    var id: String? = null
+    var id: String? = ""
 )
