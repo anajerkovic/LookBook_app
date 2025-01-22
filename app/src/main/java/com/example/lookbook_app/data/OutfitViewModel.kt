@@ -34,14 +34,13 @@ class OutfitViewModel : ViewModel() {
             "title" to outfit.title,
             "description" to outfit.description,
             "tag" to outfit.tag,
-            "imageUrl" to outfit.imageUrl // Placeholder for image URL
+            "imageUrl" to outfit.imageUrl
         )
         db.collection("outfits")
             .add(outfitData)
             .addOnSuccessListener { documentReference ->
-                // Update the outfit's ID after successful addition
                 outfit.id = documentReference.id
-                outfitsData.add(outfit) // Add to the local list
+                outfitsData.add(outfit)
                 onSuccess()
             }
             .addOnFailureListener { exception ->

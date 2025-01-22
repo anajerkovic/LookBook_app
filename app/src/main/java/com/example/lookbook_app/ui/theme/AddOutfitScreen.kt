@@ -138,7 +138,6 @@ fun AddOutfitScreen(navController: NavController, viewModel: OutfitViewModel) {
                         tag = selectedTag,
                         imageUrl = outfitLink
                     )
-                    // Add outfit via ViewModel
                     viewModel.addOutfit(newOutfit, onSuccess = {
                         Toast.makeText(context, "Outfit added successfully!", Toast.LENGTH_SHORT).show()
                         navController.popBackStack() // Navigate back to the Outfit List screen

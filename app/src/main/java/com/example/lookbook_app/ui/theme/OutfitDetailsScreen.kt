@@ -57,7 +57,7 @@ fun OutfitDetailsScreen(outfitId: Int,
         Text(
             text = outfit.description,
             fontSize = 20.sp,
-            color = Purple40 // Purple color for text
+            color = Purple40
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -79,7 +79,7 @@ fun OutfitDetailsScreen(outfitId: Int,
         Button(
             onClick = { navController.popBackStack() },
             colors =ButtonDefaults.buttonColors(contentColor =
-            White, containerColor = Pink40), // Purple color
+            White, containerColor = Pink40),
             modifier = Modifier.fillMaxWidth()
         ) {Text(text = "Back", color = Color.White) }
     }
